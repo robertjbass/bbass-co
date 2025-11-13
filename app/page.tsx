@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Home() {
   const [animationStage, setAnimationStage] = useState(0)
@@ -59,8 +60,16 @@ export default function Home() {
           </div>
           <div className="text-base md:text-lg text-white/80 space-y-2">
             <p>
-              Building developer tooling and leading engineering teams at
-              Efficient App.
+              Building developer tooling and leading engineering teams at{' '}
+              <Link
+                href="https://efficient.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 underline underline-offset-2"
+              >
+                Efficient App
+              </Link>
+              .
             </p>
             <p>
               Based in Austin. Previously SF and Western NY. Former debt
