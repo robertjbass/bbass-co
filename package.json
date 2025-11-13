@@ -1,6 +1,6 @@
 {
-  "name": "bbass-co-next",
-  "version": "0.9.0",
+  "name": "bbass-co",
+  "version": "1.0.0",
   "private": true,
   "author": "Bob Bass",
   "engines": {
