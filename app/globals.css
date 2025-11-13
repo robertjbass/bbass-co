@@ -66,19 +66,16 @@ body {
   top: 0;
   left: 0;
   pointer-events: none;
-  /* z-index: -9999; */
+  z-index: 9999;
 }
 
-.cursor-circle {
+.cursor-blob {
   position: absolute;
-  border-radius: 100%;
-  background-color: rgba(255, 255, 255, 0.25);
-  transition: transform 0.3s ease-out;
+  width: 800px;
+  height: 800px;
   transform: translate(-50%, -50%);
-  width: 120rem;
-  height: 120rem;
-  top: -60rem;
-  left: -60rem;
-  backdrop-filter: blur(10px);
-  opacity: 0.3;
+  transition: transform 0.15s ease-out;
+  opacity: 0.15;
+  fill: rgba(255, 255, 255, 0.8);
+  filter: blur(40px);
 }
