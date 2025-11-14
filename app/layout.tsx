@@ -6,6 +6,9 @@ import Navigation from '@/components/Navigation'
 export const metadata: Metadata = {
   title: 'Bob Bass',
   description: 'Portfolio for Bob Bass',
+  icons: {
+    icon: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({

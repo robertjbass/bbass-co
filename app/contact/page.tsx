@@ -67,14 +67,11 @@ export default function Contact() {
           <HiCode className="text-3xl text-blue-400" />
           <div>
             <h2 className="text-xl font-bold">Layerbase</h2>
-            <p className="text-sm text-white/70">
-              Custom Software Engineering & Consulting
-            </p>
+            <p className="text-sm text-white/70">Developer Tooling</p>
           </div>
         </div>
         <p className="text-white/80 mb-4">
-          Need help with your next project? I offer custom software development
-          and consulting services through Layerbase.
+          Building developer tooling to help engineering teams ship faster.
         </p>
         <Link
           href="https://layerbase.com"
