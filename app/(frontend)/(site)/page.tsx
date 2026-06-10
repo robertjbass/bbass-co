@@ -1,13 +1,40 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, Mail } from 'lucide-react'
-import { FaGithub } from 'react-icons/fa6'
+import type { ComponentType } from 'react'
+import { ArrowRight, Mail, Database } from 'lucide-react'
+import {
+  FaGithub,
+  FaLinkedin,
+  FaXTwitter,
+  FaYoutube,
+  FaDiscord,
+} from 'react-icons/fa6'
+import { HiOutlineMail } from 'react-icons/hi'
 import { JsonLd } from '@/components/structured-data'
 import { SITE_URL } from '@/lib/metadata'
 import { RoleRotator } from '@/components/role-rotator'
 import { TechStackGrid } from '@/components/agency/tech-stack-grid'
-import { roles, aboutCards, contactLinks, contactInfo } from '@/lib/data'
+import {
+  roles,
+  aboutCards,
+  contactLinks,
+  contactInfo,
+  type ContactIcon,
+} from '@/lib/data'
+
+const CONTACT_ICONS: Record<
+  ContactIcon,
+  ComponentType<{ className?: string }>
+> = {
+  email: HiOutlineMail,
+  github: FaGithub,
+  linkedin: FaLinkedin,
+  x: FaXTwitter,
+  youtube: FaYoutube,
+  discord: FaDiscord,
+  startup: Database,
+}
 
 export const metadata: Metadata = {
   title: 'Bob Bass — Engineer & Founder',
@@ -75,7 +102,7 @@ export default function HomePage() {
                   >
                     Efficient App
                   </a>
-                  . Building developer tooling at{' '}
+                  . Building the ultimate DBaaS platform at{' '}
                   <a
                     href="https://layerbase.com"
                     target="_blank"
@@ -181,29 +208,32 @@ export default function HomePage() {
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            {contactLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target={link.href.startsWith('http') ? '_blank' : undefined}
-                rel={
-                  link.href.startsWith('http')
-                    ? 'noopener noreferrer'
-                    : undefined
-                }
-                className="card-glow group flex items-center gap-4 rounded-xl border border-border/50 bg-card/50 p-4 transition-all hover:border-primary/30 hover:bg-card"
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-primary/30 to-primary/10 text-primary transition-transform group-hover:scale-110">
-                  <Mail className="h-5 w-5" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-xs text-muted-foreground">
-                    {link.label}
+            {contactLinks.map((link) => {
+              const Icon = CONTACT_ICONS[link.icon]
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={
+                    link.href.startsWith('http')
+                      ? 'noopener noreferrer'
+                      : undefined
+                  }
+                  className="card-glow group flex items-center gap-4 rounded-xl border border-border/50 bg-card/50 p-4 transition-all hover:border-primary/30 hover:bg-card"
+                >
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-primary/30 to-primary/10 text-primary transition-transform group-hover:scale-110">
+                    <Icon className="h-5 w-5" />
                   </div>
-                  <div className="truncate font-medium">{link.display}</div>
-                </div>
-              </a>
-            ))}
+                  <div className="min-w-0">
+                    <div className="text-xs text-muted-foreground">
+                      {link.label}
+                    </div>
+                    <div className="truncate font-medium">{link.display}</div>
+                  </div>
+                </a>
+              )
+            })}
           </div>
           <div className="mt-10 text-center">
             <a

@@ -17,8 +17,17 @@ export const socialLinks = {
   twitter: 'https://twitter.com/bobdotjs',
   youtube: 'https://youtube.com/@bobDotJS',
   discord: 'https://ourpassion.dev',
-  substack: 'https://substack.com/@alternaterealms',
+  startup: 'https://layerbase.com',
 } as const
+
+export type ContactIcon =
+  | 'email'
+  | 'github'
+  | 'linkedin'
+  | 'x'
+  | 'youtube'
+  | 'discord'
+  | 'startup'
 
 // Rotating role labels in the hero.
 export const roles = [
@@ -28,36 +37,56 @@ export const roles = [
   'Full-Stack Developer',
 ] as const
 
-// Contact channels surfaced on the landing page + footer.
+// Contact channels surfaced on the landing page.
 export const contactLinks = [
-  { label: 'Email', href: 'mailto:bob@bbass.co', display: 'bob@bbass.co' },
+  {
+    label: 'Email',
+    href: 'mailto:bob@bbass.co',
+    display: 'bob@bbass.co',
+    icon: 'email',
+  },
   {
     label: 'GitHub',
     href: 'https://github.com/robertjbass',
     display: '@robertjbass',
+    icon: 'github',
   },
   {
     label: 'LinkedIn',
     href: 'https://linkedin.com/in/bbass9490',
     display: 'bbass9490',
+    icon: 'linkedin',
   },
   {
-    label: 'Twitter',
+    label: 'X',
     href: 'https://twitter.com/bobdotjs',
     display: '@bobdotjs',
+    icon: 'x',
   },
   {
     label: 'YouTube',
     href: 'https://youtube.com/@bobDotJS',
     display: '@bobDotJS',
+    icon: 'youtube',
   },
-  { label: 'Discord', href: 'https://ourpassion.dev', display: 'ourpassion.dev' },
   {
-    label: 'Substack',
-    href: 'https://substack.com/@alternaterealms',
-    display: '@alternaterealms',
+    label: 'Discord',
+    href: 'https://ourpassion.dev',
+    display: 'ourpassion.dev',
+    icon: 'discord',
   },
-] as const
+  {
+    label: 'My Startup',
+    href: 'https://layerbase.com',
+    display: 'layerbase.com',
+    icon: 'startup',
+  },
+] as const satisfies ReadonlyArray<{
+  label: string
+  href: string
+  display: string
+  icon: ContactIcon
+}>
 
 // "About" cards on the landing page.
 export const aboutCards = [
@@ -70,7 +99,7 @@ export const aboutCards = [
     emoji: '🚀',
     title: 'Founder',
     description:
-      'Ashland Development (2011 — Sold 2019), DebtOS (Pioneer 2020), Layerbase (2025)',
+      'Ashland Development (2011 — Sold 2019), DebtOS (Pioneer 2020), Layerbase (2025 — Current)',
   },
   {
     emoji: '💡',
