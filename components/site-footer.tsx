@@ -10,8 +10,8 @@ export async function SiteFooter() {
   const socials = [
     { href: socialLinks.github, label: 'GitHub', Icon: FaGithub },
     { href: socialLinks.linkedin, label: 'LinkedIn', Icon: FaLinkedin },
-    { href: socialLinks.twitter, label: 'Twitter', Icon: FaXTwitter },
-    { href: socialLinks.email, label: 'Email', Icon: HiOutlineMail },
+    { href: socialLinks.twitter, label: 'X', Icon: FaXTwitter },
+    { href: `mailto:${contactInfo.email}`, label: 'Email', Icon: HiOutlineMail },
   ]
 
   return (

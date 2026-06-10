@@ -1,6 +1,5 @@
-// Single-domain helpers for bbass.co. The original layerbase version
-// modeled prod/dev/cloud subdomains; this site is a single apex
-// (bbass.co) plus localhost, so the cloud-subdomain logic is gone and
+// Single-domain helpers for bbass.co. This site is a single apex
+// (bbass.co) plus localhost, so there is no cloud-subdomain logic and
 // getCloudHostname always returns null.
 
 const PROD_ROOT = 'bbass.co'
@@ -38,7 +37,7 @@ export function isSameEnvironment(hostA: string, hostB: string): boolean {
 
 /**
  * No cloud dashboard subdomain on this site. Retained as a no-op so the
- * auth redirect callback (ported from layerbase) keeps a stable shape.
+ * auth redirect callback keeps a stable shape.
  */
 export function getCloudHostname(_hostname: string): string | null {
   return null
