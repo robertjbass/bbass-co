@@ -14,7 +14,7 @@ export const socialLinks = {
   email: 'mailto:bob@bbass.co',
   github: 'https://github.com/robertjbass',
   linkedin: 'https://linkedin.com/in/bbass9490',
-  twitter: 'https://twitter.com/bobdotjs',
+  twitter: 'https://x.com/bobdotjs',
   youtube: 'https://youtube.com/@bobDotJS',
   discord: 'https://ourpassion.dev',
   startup: 'https://layerbase.com',
@@ -59,7 +59,7 @@ export const contactLinks = [
   },
   {
     label: 'X',
-    href: 'https://twitter.com/bobdotjs',
+    href: 'https://x.com/bobdotjs',
     display: '@bobdotjs',
     icon: 'x',
   },

@@ -72,19 +72,10 @@ export default function HomePage() {
         <div className="container mx-auto max-w-5xl">
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
             <div className="animate-fade-in">
-              <div className="mb-4 flex items-center gap-4">
+              <div className="mb-4">
                 <h1 className="font-display text-5xl font-bold tracking-tight md:text-6xl">
-                  Bob <span className="text-gradient">Bass</span>
+                  Bob Bass
                 </h1>
-                <a
-                  href="https://github.com/robertjbass"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub"
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  <FaGithub className="h-8 w-8" />
-                </a>
               </div>
 
               <div className="mb-6">
