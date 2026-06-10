@@ -73,7 +73,7 @@
     "typescript": "^5.9.3"
   },
   "engines": {
-    "node": "22.x || 24.x",
+    "node": "24.x",
     "pnpm": "^9 || ^10"
   }
 }
