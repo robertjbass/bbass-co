@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bbass-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#818fc7" />
+      <stop offset="1" stop-color="#00b6ca" />
+    </linearGradient>
+    <clipPath id="bbass-shape">
+      <path
+        fill-rule="evenodd"
+        d="M 13 9 H 34 C 43 9 49 14 49 21 C 49 28 45 32 41 32 C 45 32 49 36 49 43 C 49 50 43 55 34 55 H 13 Z M 25 16.5 H 33 Q 37 16.5 37 21 Q 37 25.5 33 25.5 H 25 Z M 25 38 H 34 Q 39 38 39 42.5 Q 39 47 34 47 H 25 Z"
+      />
+    </clipPath>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#1e1b4b" />
+  <g clip-path="url(#bbass-shape)" fill="url(#bbass-grad)">
+    <rect x="0" y="8" width="64" height="6.6" />
+    <rect x="0" y="16" width="64" height="6.6" />
+    <rect x="0" y="24" width="64" height="6.6" />
+    <rect x="0" y="32" width="64" height="6.6" />
+    <rect x="0" y="40" width="64" height="6.6" />
+    <rect x="0" y="48" width="64" height="6.6" />
+  </g>
+</svg>
