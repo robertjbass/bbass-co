@@ -42,6 +42,7 @@ const DB_LISTING_SELECT = {
   slug: true,
   title: true,
   type: true,
+  updatedAt: true,
 } as const
 
 function markdownToResolved(post: MarkdownPost): ResolvedPost {
