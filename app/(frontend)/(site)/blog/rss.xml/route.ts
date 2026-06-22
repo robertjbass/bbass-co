@@ -42,8 +42,15 @@ export async function GET() {
     ({ post }) => post.seo?.noIndex !== true && post.slug && post.publishedAt,
   )
 
+  // Most recent modification across the whole feed. Posts are sorted by
+  // publishedAt, so the newest-published post is not necessarily the most
+  // recently edited one — scan every entry rather than trusting index 0.
   const lastBuildDate = rfc822Date(
-    indexable[0]?.post.updatedAt ?? indexable[0]?.post.publishedAt,
+    indexable
+      .map(({ post }) => post.updatedAt ?? post.publishedAt)
+      .filter((value): value is string => Boolean(value))
+      .sort()
+      .at(-1),
   )
 
   const items = indexable
