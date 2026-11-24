@@ -45,6 +45,7 @@ export const updateLastLoginAt: CollectionAfterLoginHook<User> = async ({
   try {
     await req.payload.update({
       collection: 'user',
+      req,
       id: user.id,
       data: {
         lastLoginAt: new Date().toISOString(),

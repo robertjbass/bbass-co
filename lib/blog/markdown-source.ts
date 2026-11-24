@@ -1,7 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
-import { BLOG_CONTENT_DIR } from '@/lib/constants'
 import { BlogType } from '@/collections/Blog/constants'
 import type { Blog, Media, Tag } from '@/payload-types'
 
@@ -39,7 +38,7 @@ export type MarkdownPost = Blog & {
 }
 
 function getContentDir() {
-  return path.resolve(process.cwd(), BLOG_CONTENT_DIR)
+  return path.join(process.cwd(), 'content/blog')
 }
 
 function deterministicId(slug: string): number {

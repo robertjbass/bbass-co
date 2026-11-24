@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server'
 import matter from 'gray-matter'
 import { requireAdminApi } from '@/lib/auth/require-admin-api'
 import { getPayloadClient } from '@/lib/payload'
-import { BLOG_CONTENT_DIR } from '@/lib/constants'
 import { BlogType } from '@/collections/Blog/constants'
 
 type Frontmatter = {
@@ -41,7 +40,7 @@ export async function GET(): Promise<NextResponse> {
     )
   }
 
-  const contentDir = path.resolve(process.cwd(), BLOG_CONTENT_DIR)
+  const contentDir = path.join(process.cwd(), 'content/blog')
   if (!fs.existsSync(contentDir)) {
     return NextResponse.json({ candidates: [] })
   }

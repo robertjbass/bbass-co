@@ -9,7 +9,6 @@ import {
   SiNodedotjs,
   SiPrisma,
   SiSupabase,
-  SiAmazon,
   SiGooglecloud,
   SiDocker,
   SiKubernetes,
@@ -24,7 +23,7 @@ import {
   SiNetlify,
   SiRailway,
   SiVuedotjs,
-  SiNuxtdotjs,
+  SiNuxt,
   SiGo,
   SiPayloadcms,
   SiLinux,
@@ -40,6 +39,7 @@ import {
   SiRaspberrypi,
   SiRedis,
 } from 'react-icons/si'
+import { FaAws } from 'react-icons/fa6'
 
 function NeonIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -59,7 +59,7 @@ export const TechIcons = {
   NodeJS: SiNodedotjs,
   Prisma: SiPrisma,
   Supabase: SiSupabase,
-  AWS: SiAmazon,
+  AWS: FaAws,
   GoogleCloud: SiGooglecloud,
   Docker: SiDocker,
   Kubernetes: SiKubernetes,
@@ -74,7 +74,7 @@ export const TechIcons = {
   Netlify: SiNetlify,
   Railway: SiRailway,
   Vue: SiVuedotjs,
-  Nuxt: SiNuxtdotjs,
+  Nuxt: SiNuxt,
   Go: SiGo,
   PayloadCMS: SiPayloadcms,
   Linux: SiLinux,
