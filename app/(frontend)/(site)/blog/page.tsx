@@ -6,6 +6,7 @@ import { buildCollectionPage, buildBreadcrumbList } from '@/lib/structured-data'
 import { getAllPosts, getAllTags } from '@/lib/blog/resolve-post'
 
 export const dynamic = 'force-static'
+export const revalidate = 60
 
 export const metadata = {
   ...pageMetadata({
@@ -25,7 +26,8 @@ export const metadata = {
 }
 
 export default async function BlogListingPage() {
-  const [listed, tags] = await Promise.all([getAllPosts(), getAllTags()])
+  const listed = await getAllPosts()
+  const tags = getAllTags(listed)
 
   // Only indexable posts contribute to the CollectionPage JSON-LD. Both
   // sources expose seo.noIndex the same way.

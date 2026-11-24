@@ -15,6 +15,8 @@ const nextConfig = {
   outputFileTracingIncludes: {
     '/blog': ['./content/blog/**/*'],
     '/blog/*': ['./content/blog/**/*'],
+    '/sitemap.xml': ['./content/blog/**/*'],
+    '/api/blog/*': ['./content/blog/**/*'],
   },
   images: {
     unoptimized: process.env.NODE_ENV !== 'production',

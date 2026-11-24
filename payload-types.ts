@@ -207,6 +207,22 @@ export interface Blog {
    */
   excerpt?: string | null;
   type: 'deep-dive' | 'product-review' | 'news' | 'guide' | 'research' | 'other';
+  markdownBody?: string | null;
+  author?: string | null;
+  postTags?:
+    | {
+        name: string;
+        slug: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Check and save to publish. A future date schedules this post.
+   */
+  published?: boolean | null;
+  suppressFileFallback?: boolean | null;
+  importedCoverUrl?: string | null;
+  importedShareUrl?: string | null;
   featuredImage?: (number | null) | Media;
   /**
    * Auto-set when first published.
@@ -384,6 +400,19 @@ export interface BlogSelect<T extends boolean = true> {
   slug?: T;
   excerpt?: T;
   type?: T;
+  markdownBody?: T;
+  author?: T;
+  postTags?:
+    | T
+    | {
+        name?: T;
+        slug?: T;
+        id?: T;
+      };
+  published?: T;
+  suppressFileFallback?: T;
+  importedCoverUrl?: T;
+  importedShareUrl?: T;
   featuredImage?: T;
   publishedAt?: T;
   contentHash?: T;

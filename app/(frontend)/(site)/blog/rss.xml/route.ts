@@ -12,7 +12,7 @@ import { SITE_URL } from '@/lib/metadata'
 // the site for the funnel CTAs (and for the syntax-highlighted code).
 
 export const dynamic = 'force-static'
-export const revalidate = false
+export const revalidate = 60
 
 const FEED_DESCRIPTION =
   'Writing on TypeScript, developer tooling, building products, and lessons from shipping software.'
@@ -90,9 +90,6 @@ ${items}
   return new Response(body, {
     headers: {
       'Content-Type': 'application/rss+xml; charset=utf-8',
-      // Cache for an hour at the CDN; revalidate after that. Posts
-      // publish infrequently enough that one-hour staleness is fine.
-      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
     },
   })
 }

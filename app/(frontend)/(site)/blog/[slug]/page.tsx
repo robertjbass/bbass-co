@@ -1,13 +1,6 @@
 import { notFound } from 'next/navigation'
-import { getPayloadClient } from '@/lib/payload'
 import { BlogPost } from '@/components/blog/blog-post'
-import { getAuthenticatedUserId } from '@/lib/auth/get-authenticated-user'
-import {
-  resolvePostBySlug,
-  getAllPostSlugs,
-  type ResolvedPost,
-} from '@/lib/blog/resolve-post'
-import { UserRole } from '@/collections/User/constants'
+import { resolvePostBySlug, getAllPosts } from '@/lib/blog/resolve-post'
 import type { Metadata } from 'next'
 import { JsonLd } from '@/components/structured-data'
 import { buildBlogPosting, buildBreadcrumbList } from '@/lib/structured-data'
@@ -18,37 +11,12 @@ type Props = {
   params: Promise<{ slug: Blog['slug'] }>
 }
 
+export const dynamic = 'force-static'
 export const dynamicParams = true
+export const revalidate = 60
 
 export async function generateStaticParams() {
-  const slugs = await getAllPostSlugs()
-  return slugs.map((slug) => ({ slug }))
-}
-
-async function getAdminEditUrl(
-  source: ResolvedPost['source'],
-  postId: number,
-): Promise<string | undefined> {
-  if (source === 'markdown') return undefined
-
-  try {
-    const payload = await getPayloadClient()
-    const userId = await getAuthenticatedUserId()
-    if (!userId) return undefined
-
-    const user = await payload.findByID({
-      collection: 'user',
-      id: Number(userId),
-      select: { role: true },
-      overrideAccess: true,
-    })
-
-    if (user?.role !== UserRole.Admin) return undefined
-
-    return `/admin/collections/blog/${postId}`
-  } catch {
-    return undefined
-  }
+  return (await getAllPosts()).map(({ post }) => ({ slug: post.slug }))
 }
 
 function shareImage(post: Blog) {
@@ -89,6 +57,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ...(description && { description }),
       url: `/blog/${slug}`,
       ...(post.publishedAt && { publishedTime: post.publishedAt }),
+      modifiedTime: post.updatedAt,
+      authors: resolved.author ? [resolved.author] : undefined,
+      tags: resolved.tags.map((tag) => tag.name),
     },
     twitter: {
       card: 'summary_large_image',
@@ -106,7 +77,6 @@ export default async function BlogPostPage({ params }: Props) {
   if (!resolved) notFound()
 
   const { source, post, tags, markdownBody, author } = resolved
-  const adminEditUrl = await getAdminEditUrl(source, post.id)
 
   const blogPosting = buildBlogPosting({
     headline: post.title,
@@ -131,7 +101,8 @@ export default async function BlogPostPage({ params }: Props) {
         post={post}
         tags={tags}
         markdown={markdownBody}
-        adminEditUrl={adminEditUrl}
+        author={author}
+        editableId={source === 'db' ? post.id : undefined}
       />
     </>
   )

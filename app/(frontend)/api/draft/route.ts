@@ -1,4 +1,3 @@
-import { draftMode } from 'next/headers'
 import { getPayloadClient } from '@/lib/payload'
 import { type NextRequest, NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/auth/require-admin'
@@ -36,10 +35,7 @@ export async function GET(request: NextRequest) {
 
   const canonicalSlug = encodeURIComponent(docs[0].slug)
 
-  const draft = await draftMode()
-  draft.enable()
-
   return NextResponse.redirect(
-    new URL(`/blog/${canonicalSlug}`, request.nextUrl.origin),
+    new URL(`/blog/preview/${canonicalSlug}`, request.nextUrl.origin),
   )
 }
