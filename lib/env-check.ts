@@ -36,7 +36,33 @@ function isProd(): boolean {
   )
 }
 
+function isLocalHostname(hostname: string): boolean {
+  return ['localhost', '127.0.0.1', '[::1]'].includes(hostname)
+}
+
+// A production deploy whose AUTH_URL is plain http sends GitHub an http
+// OAuth callback (GitHub rejects it) and issues auth cookies without Secure.
+// Local `next start` on localhost is still allowed.
+function assertHttpsAuthUrl(): void {
+  const authUrl = process.env.AUTH_URL?.trim()
+  if (process.env.NODE_ENV !== 'production' || !authUrl) return
+  let url: URL
+  try {
+    url = new URL(authUrl)
+  } catch {
+    throw new Error(
+      `AUTH_URL is not a valid URL: ${authUrl}. Set it to the public origin, e.g. https://bbass.co.`,
+    )
+  }
+  if (url.protocol === 'https:' || isLocalHostname(url.hostname)) return
+  throw new Error(
+    `AUTH_URL must use https in production (got ${authUrl}). ` +
+      `Set AUTH_URL=https://${url.host} in the app's environment variables and redeploy.`,
+  )
+}
+
 export function validateRequiredEnv(): void {
+  assertHttpsAuthUrl()
   const required = isProd() ? REQUIRED_IN_PROD : REQUIRED_ALWAYS
   const missing: string[] = []
   for (const name of required) {
@@ -49,7 +75,7 @@ export function validateRequiredEnv(): void {
     throw new Error(
       `Missing required environment variable(s): ${list}. ` +
         `In production, all of [${REQUIRED_IN_PROD.join(', ')}] must be set. ` +
-        `Check your Vercel project settings or .env file.`,
+        `Check the app's environment variables on Layerbase or your .env file.`,
     )
   }
 }
