@@ -2,6 +2,7 @@ import { admins } from '@/collections/User/hooks'
 import {
   publishedOrAdmins,
   prepareBlogPost,
+  selectFeaturedPost,
   invalidateBlogPages,
 } from '@/collections/Blog/hooks'
 import { slugField, seoFields } from '@/collections/shared/fields'
@@ -12,7 +13,13 @@ const Blog: CollectionConfig<'blog'> = {
   slug: 'blog',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'published', 'publishedAt', 'updatedAt'],
+    defaultColumns: [
+      'title',
+      'published',
+      'featured',
+      'publishedAt',
+      'updatedAt',
+    ],
     listSearchableFields: ['title', 'slug'],
     group: 'Content',
     components: {
@@ -33,7 +40,7 @@ const Blog: CollectionConfig<'blog'> = {
   },
   timestamps: true,
   hooks: {
-    beforeChange: [prepareBlogPost],
+    beforeChange: [prepareBlogPost, selectFeaturedPost],
     afterChange: [
       ({ doc, previousDoc }) => invalidateBlogPages(doc, previousDoc),
     ],
@@ -90,6 +97,16 @@ const Blog: CollectionConfig<'blog'> = {
         { name: 'name', type: 'text', required: true },
         { name: 'slug', type: 'text', required: true },
       ],
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description:
+          'Feature this post on the homepage and Writing page when public. Selecting it replaces the previous selection.',
+      },
     },
     {
       name: 'published',

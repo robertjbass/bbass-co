@@ -1,3 +1,4 @@
+import { getFeaturedPost } from '@/lib/blog/resolve-post'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BookOpen, Code2, PlayCircle, Terminal } from 'lucide-react'
@@ -14,7 +15,11 @@ export const metadata = pageMetadata({
   path: '/',
 })
 
-export default function HomePage() {
+export const dynamic = 'force-static'
+export const revalidate = 60
+
+export default async function HomePage() {
+  const featured = await getFeaturedPost()
   return (
     <main className="profile-page">
       <JsonLd
@@ -53,7 +58,16 @@ export default function HomePage() {
               <Link href="/blog">Read my writing</Link>
             </div>
           </div>
-          <PreviewDeployment />
+          <div className="min-w-0">
+            <PreviewDeployment />
+            {featured && (
+              <Link className="hero-field-note" href={`/blog/${featured.slug}`}>
+                <BookOpen size={16} aria-hidden="true" />
+                <span>{featured.title}</span>
+                <span aria-hidden="true">↗</span>
+              </Link>
+            )}
+          </div>
         </section>
         <section
           id="work"
@@ -180,8 +194,11 @@ export default function HomePage() {
               <summary>Tools I work with</summary>
               <p>TypeScript, Go, Rust, PostgreSQL, Redis, and AWS.</p>
             </details>
-            <Link className="text-link" href="/blog">
-              Read my writing
+            <Link
+              className="text-link"
+              href={featured ? `/blog/${featured.slug}` : '/blog'}
+            >
+              {featured?.title ?? 'Read my writing'}
             </Link>
           </div>
         </section>

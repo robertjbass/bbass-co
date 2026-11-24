@@ -1194,3 +1194,15 @@ details[open] > .faq-collapse {
     transition: none;
   }
 }
+
+.hero-field-note {
+  display: flex;
+  align-items: baseline;
+  gap: .7rem;
+  padding-block: .9rem;
+  font-size: .95rem;
+  line-height: 1.5;
+}
+.hero-field-note svg { flex-shrink: 0; align-self: center; }
+.hero-field-note span:last-child { margin-left: auto; }
+.hero-field-note:hover span:first-of-type { text-decoration: underline; text-underline-offset: .2em; }

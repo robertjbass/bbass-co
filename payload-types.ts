@@ -217,6 +217,10 @@ export interface Blog {
       }[]
     | null;
   /**
+   * Feature this post on the homepage and Writing page when public. Selecting it replaces the previous selection.
+   */
+  featured?: boolean | null;
+  /**
    * Check and save to publish. A future date schedules this post.
    */
   published?: boolean | null;
@@ -409,6 +413,7 @@ export interface BlogSelect<T extends boolean = true> {
         slug?: T;
         id?: T;
       };
+  featured?: T;
   published?: T;
   suppressFileFallback?: T;
   importedCoverUrl?: T;

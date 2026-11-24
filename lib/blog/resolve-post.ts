@@ -35,6 +35,7 @@ const LISTING_SELECT = {
   seo: true,
   postTags: true,
   featuredImage: true,
+  featured: true,
   importedCoverUrl: true,
   importedShareUrl: true,
   author: true,
@@ -127,7 +128,7 @@ export const getAllPosts = cache(async (): Promise<ListedPost[]> => {
   }
   for (const row of docs) {
     if (withdrawn(row, now)) posts.delete(row.slug)
-    else if (row.published === true || !posts.has(row.slug))
+    else if (row.featured || row.published === true || !posts.has(row.slug))
       posts.set(row.slug, databasePost(row))
   }
   return [...posts.values()].sort(
@@ -142,4 +143,18 @@ export function getAllTags(posts: ListedPost[]): Tag[] {
     posts.flatMap(({ tags }) => tags.map((tag) => [tag.slug, tag] as const)),
   )
   return [...tags.values()].sort((a, b) => a.name.localeCompare(b.name))
+}
+
+export async function getFeaturedPost() {
+  const payload = await getPayloadClient()
+  const {
+    docs: [post],
+  } = await payload.find({
+    collection: 'blog',
+    where: { and: [publicBlogWhere(), { featured: { equals: true } }] },
+    select: { title: true, slug: true },
+    depth: 0,
+    limit: 1,
+  })
+  return post
 }
