@@ -22,9 +22,12 @@ export function formatSlug(value: string): string {
     .replace(/^-+|-+$/g, '')
 }
 
-function createSlugHook(sourceField: string): FieldHook {
+function createSlugHook(
+  sourceField: string,
+  { preserveExplicit = false } = {},
+): FieldHook {
   return ({ data, value, operation }) => {
-    if (operation === 'create' || !value) {
+    if ((!preserveExplicit && operation === 'create') || !value) {
       const sourceValue = data?.[sourceField]
       if (typeof sourceValue === 'string' && sourceValue.length > 0) {
         return formatSlug(sourceValue)
@@ -34,7 +37,10 @@ function createSlugHook(sourceField: string): FieldHook {
   }
 }
 
-export function slugField(sourceField: string): Field {
+export function slugField(
+  sourceField: string,
+  options = { preserveExplicit: false },
+): Field {
   return {
     name: 'slug',
     type: 'text',
@@ -52,7 +58,7 @@ export function slugField(sourceField: string): Field {
       return true
     },
     hooks: {
-      beforeValidate: [createSlugHook(sourceField)],
+      beforeValidate: [createSlugHook(sourceField, options)],
     },
   }
 }

@@ -23,6 +23,7 @@ type Frontmatter = {
   title: string
   slug: string
   excerpt?: string
+  published?: boolean
   publishedAt?: string
   author?: string
   type?: BlogType
@@ -31,10 +32,6 @@ type Frontmatter = {
   seo?: FrontmatterSeo
 }
 
-// MarkdownPost extends Blog with two render-time extras the DB path doesn't
-// provide: the markdown body itself, the legacy author string from
-// frontmatter, and a synthesized Tag[] since Phase 1 Blog no longer has a
-// tags relationship.
 export type MarkdownPost = Blog & {
   markdownBody: string
   author?: string
@@ -54,7 +51,7 @@ function deterministicId(slug: string): number {
   return Math.abs(hash)
 }
 
-function synthesizeTag(tag: { name: string; slug: string }): Tag {
+export function synthesizeTag(tag: { name: string; slug: string }): Tag {
   return {
     id: deterministicId(tag.slug),
     name: tag.name,
@@ -64,7 +61,7 @@ function synthesizeTag(tag: { name: string; slug: string }): Tag {
   } as Tag
 }
 
-function synthesizeMedia(
+export function synthesizeMedia(
   slug: string,
   key: string,
   image: FrontmatterImage | undefined,
@@ -112,6 +109,7 @@ function synthesizeBlog(frontmatter: Frontmatter): Blog {
     slug: frontmatter.slug,
     type: frontmatter.type ?? BlogType.Other,
     excerpt: frontmatter.excerpt ?? null,
+    published: frontmatter.published,
     publishedAt: frontmatter.publishedAt ?? null,
     featuredImage: synthesizeMedia(
       frontmatter.slug,
@@ -135,6 +133,9 @@ function readMarkdownFiles() {
       const filePath = path.join(contentDir, filename)
       const raw = fs.readFileSync(filePath, 'utf-8')
       const { data, content } = matter(raw)
+      for (const key of ['publishedAt', 'updatedAt']) {
+        if (data[key] instanceof Date) data[key] = data[key].toISOString()
+      }
       return {
         frontmatter: data as Frontmatter,
         body: content,
@@ -150,6 +151,13 @@ function tagsFromFrontmatter(frontmatter: Frontmatter): Tag[] {
 export type MarkdownListing = {
   post: Blog
   tags: Tag[]
+}
+
+export function isPublicFile(post: Blog, now: string) {
+  return (
+    post.published !== false &&
+    Boolean(post.publishedAt && Date.parse(post.publishedAt) <= Date.parse(now))
+  )
 }
 
 export function getMarkdownPosts(): MarkdownListing[] {
@@ -175,20 +183,4 @@ export function getMarkdownPostBySlug(slug: string): MarkdownPost | null {
     author: match.frontmatter.author,
     tags: tagsFromFrontmatter(match.frontmatter),
   }
-}
-
-export function getMarkdownTags(): Tag[] {
-  const tagMap = new Map<string, { name: string; slug: string }>()
-
-  for (const { frontmatter } of readMarkdownFiles()) {
-    for (const tag of frontmatter.tags ?? []) {
-      if (!tagMap.has(tag.slug)) {
-        tagMap.set(tag.slug, tag)
-      }
-    }
-  }
-
-  return Array.from(tagMap.values())
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map(synthesizeTag)
 }

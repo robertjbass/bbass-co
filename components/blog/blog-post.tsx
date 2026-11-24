@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { ArrowLeft, SquarePen } from 'lucide-react'
+import { BlogEditLink } from './blog-edit-link'
+import { ArrowLeft } from 'lucide-react'
 import type { Blog, Tag } from '@/payload-types'
 import { MarkdownContent } from '@/components/blog/markdown-content'
 import { formatDate } from '@/lib/blog/utils'
@@ -8,14 +9,16 @@ type BlogPostProps = {
   post: Blog
   tags?: Tag[]
   markdown?: string
-  adminEditUrl?: string
+  author?: string
+  editableId?: number
 }
 
 export function BlogPost({
   post,
   tags = [],
   markdown,
-  adminEditUrl,
+  author,
+  editableId,
 }: BlogPostProps) {
   return (
     <div className="mx-auto max-w-180">
@@ -35,6 +38,7 @@ export function BlogPost({
             {post.title}
           </h1>
           <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+            {author && <span>By {author}</span>}
             {post.publishedAt && (
               <time dateTime={post.publishedAt}>
                 {formatDate(post.publishedAt)}
@@ -48,15 +52,7 @@ export function BlogPost({
                 {tag.name}
               </span>
             ))}
-            {adminEditUrl && (
-              <Link
-                href={adminEditUrl}
-                className="ml-auto inline-flex items-center gap-1 text-xs text-muted-foreground/60 transition-colors hover:text-foreground"
-              >
-                <SquarePen className="size-3" />
-                Edit
-              </Link>
-            )}
+            {editableId !== undefined && <BlogEditLink id={editableId} />}
           </div>
           <div className="mt-6 border-t border-border" />
         </header>

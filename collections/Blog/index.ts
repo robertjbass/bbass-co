@@ -1,5 +1,9 @@
 import { admins } from '@/collections/User/hooks'
-import { publishedOrAdmins, setPublishedAt } from '@/collections/Blog/hooks'
+import {
+  publishedOrAdmins,
+  prepareBlogPost,
+  invalidateBlogPages,
+} from '@/collections/Blog/hooks'
 import { slugField, seoFields } from '@/collections/shared/fields'
 import { BlogType, blogTypeOptions } from './constants'
 import { type CollectionConfig } from 'payload'
@@ -8,7 +12,7 @@ const Blog: CollectionConfig<'blog'> = {
   slug: 'blog',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'type', 'slug', 'publishedAt', 'updatedAt'],
+    defaultColumns: ['title', 'published', 'publishedAt', 'updatedAt'],
     listSearchableFields: ['title', 'slug'],
     group: 'Content',
     components: {
@@ -29,7 +33,11 @@ const Blog: CollectionConfig<'blog'> = {
   },
   timestamps: true,
   hooks: {
-    beforeChange: [setPublishedAt],
+    beforeChange: [prepareBlogPost],
+    afterChange: [
+      ({ doc, previousDoc }) => invalidateBlogPages(doc, previousDoc),
+    ],
+    afterDelete: [({ doc }) => invalidateBlogPages(doc)],
   },
   fields: [
     {
@@ -37,7 +45,7 @@ const Blog: CollectionConfig<'blog'> = {
       type: 'text',
       required: true,
     },
-    slugField('title'),
+    slugField('title', { preserveExplicit: true }),
     {
       name: 'excerpt',
       type: 'textarea',
@@ -58,6 +66,49 @@ const Blog: CollectionConfig<'blog'> = {
         position: 'sidebar',
       },
     },
+    {
+      name: 'markdownBody',
+      label: 'Markdown body',
+      type: 'textarea',
+      admin: {
+        components: {
+          Field: '@/collections/Blog/components/markdown-field.tsx',
+        },
+      },
+    },
+    {
+      name: 'author',
+      label: 'Public byline',
+      type: 'text',
+      defaultValue: 'Bob Bass',
+    },
+    {
+      name: 'postTags',
+      label: 'Tags',
+      type: 'array',
+      fields: [
+        { name: 'name', type: 'text', required: true },
+        { name: 'slug', type: 'text', required: true },
+      ],
+    },
+    {
+      name: 'published',
+      type: 'checkbox',
+      admin: {
+        position: 'sidebar',
+        description:
+          'Check and save to publish. A future date schedules this post.',
+      },
+    },
+    {
+      name: 'suppressFileFallback',
+      type: 'checkbox',
+      admin: { hidden: true },
+      access: { create: () => false, update: () => false },
+    },
+    // Keep external image URLs when importing file frontmatter into Postgres.
+    { name: 'importedCoverUrl', type: 'text', admin: { hidden: true } },
+    { name: 'importedShareUrl', type: 'text', admin: { hidden: true } },
     {
       // Upload fields must stay in the main content area - Payload admin
       // crashes when type: 'upload' is placed in admin.position: 'sidebar'.
