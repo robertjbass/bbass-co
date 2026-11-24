@@ -48,9 +48,18 @@ function sortByPublishedAtDesc(a: ListedPostEntry, b: ListedPostEntry) {
   return bt - at
 }
 
-export function BlogListing({ posts, tags }: BlogListingProps) {
+export function TaggedBlogListing(props: BlogListingProps) {
   const searchParams = useSearchParams()
-  const activeTag = searchParams.get('tag') ?? undefined
+  return (
+    <BlogListing {...props} activeTag={searchParams.get('tag') ?? undefined} />
+  )
+}
+
+export function BlogListing({
+  posts,
+  tags,
+  activeTag,
+}: BlogListingProps & { activeTag?: string }) {
   const [query, setQuery] = useState('')
   const normalizedQuery = normalizeSearchText(query)
 

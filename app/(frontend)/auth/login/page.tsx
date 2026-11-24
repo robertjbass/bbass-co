@@ -5,6 +5,11 @@ import { sanitizeCallbackUrl } from '@/lib/apex-domains'
 import { BbassMark } from '@/components/icons/bbass-mark'
 import { LoginForm } from '@/app/(frontend)/auth/login/login-form'
 
+export const metadata = {
+  title: 'Sign in',
+  robots: { index: false, follow: false },
+}
+
 type Props = {
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }

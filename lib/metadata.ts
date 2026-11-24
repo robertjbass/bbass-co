@@ -57,7 +57,13 @@ export const SHOULD_NOINDEX_SITE = computeShouldNoindex({
 })
 
 const SITE_NAME = 'Bob Bass'
-const DEFAULT_TITLE = 'Bob Bass — Engineer & Founder'
+const DEFAULT_TITLE = 'Bob Bass — Platform engineer & founder'
+const SOCIAL_IMAGE = {
+  url: `${SITE_URL}/opengraph-image.png`,
+  width: 1200,
+  height: 630,
+  alt: 'Bob Bass — Platform engineer and founder of Layerbase',
+}
 const DEFAULT_DESCRIPTION =
   'Bob Bass is a software engineer and founder in Austin, TX. Head of Engineering at Efficient App and founder of Layerbase. Writing about TypeScript, developer tooling, and building products.'
 
@@ -73,11 +79,13 @@ export function siteMetadata(): Metadata {
       type: 'website',
       siteName: SITE_NAME,
       locale: 'en_US',
+      images: [SOCIAL_IMAGE],
     },
     twitter: {
       card: 'summary_large_image',
       site: '@bobdotjs',
       creator: '@bobdotjs',
+      images: [SOCIAL_IMAGE],
     },
     alternates: {
       canonical: './',
@@ -115,6 +123,7 @@ export function pageMetadata({
       type: 'website',
       siteName: SITE_NAME,
       locale: 'en_US',
+      images: [SOCIAL_IMAGE],
       url: path,
     },
     ...((noIndex || SHOULD_NOINDEX_SITE) && {

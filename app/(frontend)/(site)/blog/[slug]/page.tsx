@@ -51,6 +51,14 @@ async function getAdminEditUrl(
   }
 }
 
+function shareImage(post: Blog) {
+  for (const media of [post.seo?.ogImage, post.featuredImage]) {
+    if (typeof media === 'object' && media?.url)
+      return new URL(media.url, SITE_URL).href
+  }
+  return `${SITE_URL}/opengraph-image.png`
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const resolved = await resolvePostBySlug(slug)
@@ -67,7 +75,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const noIndex = SHOULD_NOINDEX_SITE || seo?.noIndex === true
 
   return {
-    title,
+    title: seo?.metaTitle?.trim() ? { absolute: title } : title,
     ...(description && { description }),
     robots: noIndex
       ? { index: false, follow: false }
@@ -75,6 +83,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       type: 'article',
+      siteName: 'Bob Bass',
+      images: [shareImage(post)],
       title,
       ...(description && { description }),
       url: `/blog/${slug}`,
@@ -82,6 +92,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
+      images: [shareImage(post)],
       title,
       ...(description && { description }),
     },
@@ -104,7 +115,7 @@ export default async function BlogPostPage({ params }: Props) {
     datePublished: post.publishedAt ?? undefined,
     dateModified: post.updatedAt,
     author,
-    image: `${SITE_URL}/blog/${post.slug}/opengraph-image`,
+    image: shareImage(post),
   })
 
   const breadcrumbs = buildBreadcrumbList([

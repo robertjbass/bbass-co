@@ -1,26 +1,23 @@
-import { cn } from '@/lib/cn'
-import { NavShell } from '@/components/nav-shell'
-import { type NavConfig, getMainNavConfig } from '@/lib/nav-config'
+import Link from 'next/link'
+import { BbassMark } from '@/components/icons/bbass-mark'
+import { ThemeToggle } from '@/components/theme-toggle'
 
-type SiteHeaderProps = {
-  config?: NavConfig
-}
-
-export async function SiteHeader({ config }: SiteHeaderProps = {}) {
-  const resolvedConfig: NavConfig = config ?? getMainNavConfig()
-  const variant = resolvedConfig.headerVariant
-
+export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 w-full pb-0 sm:px-6 sm:pt-2">
-      <div
-        className={cn(
-          'nav-glass container mx-auto flex h-12 max-w-5xl items-center justify-between border-b px-5 sm:rounded-lg sm:border',
-          variant === 'subdomain'
-            ? 'border-border/40 bg-background sm:bg-background/95'
-            : 'border-border/30 bg-card sm:border-transparent sm:bg-card/95 dark:sm:bg-card/95',
-        )}
-      >
-        <NavShell config={resolvedConfig} />
+    <header className="profile-header">
+      <div className="profile-width profile-nav">
+        <Link href="/" className="profile-brand" aria-label="bbass.co home">
+          <BbassMark className="size-8 shrink-0" /> bbass.co
+        </Link>
+        <nav aria-label="Main navigation">
+          <Link href="/#work">Work</Link>
+          <Link href="/#about">About</Link>
+          <Link href="/blog">Writing</Link>
+          <Link className="nav-contact" href="/#contact">
+            Contact
+          </Link>
+          <ThemeToggle />
+        </nav>
       </div>
     </header>
   )
