@@ -3,6 +3,8 @@ import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { HashScroll } from '@/components/hash-scroll'
 
+import './profile.css'
+
 export default function SiteLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {

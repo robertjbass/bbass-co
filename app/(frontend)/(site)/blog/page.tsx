@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { pageMetadata, SITE_URL } from '@/lib/metadata'
-import { BlogListing } from '@/components/blog/blog-listing'
+import { BlogListing, TaggedBlogListing } from '@/components/blog/blog-listing'
 import { JsonLd } from '@/components/structured-data'
 import { buildCollectionPage, buildBreadcrumbList } from '@/lib/structured-data'
 import { getAllPosts, getAllTags } from '@/lib/blog/resolve-post'
@@ -50,8 +50,8 @@ export default async function BlogListingPage() {
   return (
     <>
       <JsonLd data={[collectionSchema, breadcrumbs]} />
-      <Suspense>
-        <BlogListing posts={listed} tags={tags} />
+      <Suspense fallback={<BlogListing posts={listed} tags={tags} />}>
+        <TaggedBlogListing posts={listed} tags={tags} />
       </Suspense>
     </>
   )

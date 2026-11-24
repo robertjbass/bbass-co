@@ -1,6 +1,54 @@
 import { SITE_URL } from '@/lib/metadata'
 
-type PersonAuthor = { '@type': 'Person'; name: string; url?: string }
+import { socialLinks } from '@/lib/data'
+
+export const personId = `${SITE_URL}/#person`
+export const siteGraph = [
+  {
+    '@type': 'Person',
+    '@id': personId,
+    name: 'Bob Bass',
+    url: SITE_URL,
+    image: `${SITE_URL}/headshot.jpg`,
+    jobTitle: [
+      'Founder and CEO of Layerbase',
+      'Head of Engineering at Efficient.app',
+    ],
+    description:
+      'Platform engineer and founder in Austin, Texas, building database infrastructure and distributed systems.',
+    worksFor: [
+      {
+        '@type': 'Organization',
+        name: 'Layerbase',
+        url: socialLinks.startup,
+        founder: { '@id': personId },
+      },
+      {
+        '@type': 'Organization',
+        name: 'Efficient.app',
+        url: 'https://efficient.app',
+      },
+    ],
+    knowsAbout: [
+      'Database platforms',
+      'Distributed systems',
+      'Infrastructure as code',
+    ],
+    sameAs: [
+      socialLinks.github,
+      socialLinks.linkedin,
+      socialLinks.twitter,
+      socialLinks.youtube,
+    ],
+  },
+  {
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    url: SITE_URL,
+    name: 'Bob Bass',
+    publisher: { '@id': personId },
+  },
+]
 
 export function buildBlogPosting({
   headline,
@@ -20,9 +68,6 @@ export function buildBlogPosting({
   image?: string
 }) {
   const url = `${SITE_URL}/blog/${slug}`
-  const authorObj: PersonAuthor | undefined =
-    author && author.trim() ? { '@type': 'Person', name: author } : undefined
-
   return {
     '@type': 'BlogPosting',
     '@id': `${url}#article`,
@@ -32,9 +77,14 @@ export function buildBlogPosting({
     ...(description ? { description } : {}),
     ...(datePublished ? { datePublished } : {}),
     ...(dateModified ? { dateModified } : {}),
-    ...(authorObj ? { author: authorObj } : {}),
+    ...(author?.trim() && {
+      author:
+        author === 'Bob Bass'
+          ? { '@type': 'Person', '@id': personId, name: author, url: SITE_URL }
+          : { '@type': 'Person', name: author },
+    }),
     ...(image ? { image } : {}),
-    publisher: { '@id': `${SITE_URL}/#organization` },
+    publisher: { '@id': personId },
   }
 }
 

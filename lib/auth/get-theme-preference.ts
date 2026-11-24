@@ -1,6 +1,4 @@
-import { cookies } from 'next/headers'
-import { getPayloadClient } from '@/lib/payload'
-import { getAuthenticatedUserId } from '@/lib/auth/get-authenticated-user'
+import { cookies, headers } from 'next/headers'
 import { ThemePreference } from '@/collections/User/constants'
 
 const VALID_THEMES = new Set(Object.values(ThemePreference))
@@ -8,23 +6,32 @@ const VALID_THEMES = new Set(Object.values(ThemePreference))
 export async function getThemePreference(
   fallback: ThemePreference = ThemePreference.Dark,
 ): Promise<ThemePreference> {
-  let userId: string | null = null
+  const cookieStore = await cookies()
+  const cookieTheme = cookieStore.get('theme-preference')?.value as
+    | ThemePreference
+    | undefined
+  const anonymousTheme =
+    cookieTheme && VALID_THEMES.has(cookieTheme) ? cookieTheme : fallback
+
+  // A first-time visitor can render without booting Payload or opening Postgres.
+  if (
+    !cookieStore.getAll().some(({ name }) => name !== 'theme-preference') &&
+    !(await headers()).has('authorization')
+  )
+    return anonymousTheme
+
+  let userId: string | null
   try {
+    const { getAuthenticatedUserId } =
+      await import('@/lib/auth/get-authenticated-user')
     userId = await getAuthenticatedUserId()
   } catch {
-    // Auth check failed (e.g., DB unreachable)  - fall through to cookie/fallback
+    return anonymousTheme
   }
-
-  if (!userId) {
-    const cookieStore = await cookies()
-    const cookieTheme = cookieStore.get('theme-preference')?.value
-    if (cookieTheme && VALID_THEMES.has(cookieTheme as ThemePreference)) {
-      return cookieTheme as ThemePreference
-    }
-    return fallback
-  }
+  if (!userId) return anonymousTheme
 
   try {
+    const { getPayloadClient } = await import('@/lib/payload')
     const payload = await getPayloadClient()
     const user = await payload.findByID({
       collection: 'user',

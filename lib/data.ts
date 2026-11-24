@@ -1,5 +1,4 @@
 export const contactInfo = {
-  email: 'bob@bbass.co',
   location: 'Austin, TX',
   name: 'Bob Bass',
   company: {
@@ -11,7 +10,6 @@ export const contactInfo = {
 
 export const socialLinks = {
   website: 'https://bbass.co',
-  email: 'mailto:bob@bbass.co',
   github: 'https://github.com/robertjbass',
   linkedin: 'https://linkedin.com/in/bbass9490',
   twitter: 'https://x.com/bobdotjs',
@@ -20,15 +18,6 @@ export const socialLinks = {
   startup: 'https://layerbase.com',
 } as const
 
-export type ContactIcon =
-  | 'email'
-  | 'github'
-  | 'linkedin'
-  | 'x'
-  | 'youtube'
-  | 'discord'
-  | 'startup'
-
 // Rotating role labels in the hero.
 export const roles = [
   'Head of Engineering',
@@ -36,57 +25,6 @@ export const roles = [
   'Startup Founder',
   'Full-Stack Developer',
 ] as const
-
-// Contact channels surfaced on the landing page.
-export const contactLinks = [
-  {
-    label: 'Email',
-    href: 'mailto:bob@bbass.co',
-    display: 'bob@bbass.co',
-    icon: 'email',
-  },
-  {
-    label: 'GitHub',
-    href: 'https://github.com/robertjbass',
-    display: '@robertjbass',
-    icon: 'github',
-  },
-  {
-    label: 'LinkedIn',
-    href: 'https://linkedin.com/in/bbass9490',
-    display: 'bbass9490',
-    icon: 'linkedin',
-  },
-  {
-    label: 'X',
-    href: 'https://x.com/bobdotjs',
-    display: '@bobdotjs',
-    icon: 'x',
-  },
-  {
-    label: 'YouTube',
-    href: 'https://youtube.com/@bobDotJS',
-    display: '@bobDotJS',
-    icon: 'youtube',
-  },
-  {
-    label: 'Discord',
-    href: 'https://ourpassion.dev',
-    display: 'ourpassion.dev',
-    icon: 'discord',
-  },
-  {
-    label: 'My Startup',
-    href: 'https://layerbase.com',
-    display: 'layerbase.com',
-    icon: 'startup',
-  },
-] as const satisfies ReadonlyArray<{
-  label: string
-  href: string
-  display: string
-  icon: ContactIcon
-}>
 
 // "About" cards on the landing page.
 export const aboutCards = [

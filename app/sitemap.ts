@@ -4,7 +4,7 @@ import { getAllPosts } from '@/lib/blog/resolve-post'
 import { SITE_URL } from '@/lib/metadata'
 
 // Static pages bump together when the site is meaningfully updated.
-const SITE_LAST_UPDATED = new Date('2026-06-10T00:00:00Z')
+const SITE_LAST_UPDATED = new Date('2026-11-24T00:00:00Z')
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [
