@@ -1,0 +1,15 @@
+diff --git a/dist/build/index.js b/dist/build/index.js
+index 909ea6752b13f9d69a0d0628153949dab7f1d405..1b52322a1b83665f206811f44ae367067472739b 100644
+--- a/dist/build/index.js
++++ b/dist/build/index.js
+@@ -947,6 +947,10 @@ async function build(dir, analyze = false, reactProductionProfiling = false, deb
+                     buildTraceContext = rest.buildTraceContext;
+                     const durationString = (0, _durationtostring.durationToString)(compilerDuration);
+                     _log.event(`Compiled successfully in ${durationString}`);
++                    // layerbase patch: let the Turbopack worker finish shutting down (and
++                    // release its multi-GB task graph) before page-data collection and
++                    // static generation start their own worker processes.
++                    await shutdownPromise;
+                     telemetry.record((0, _events.eventBuildCompleted)(pagesPaths, {
+                         bundler: 'turbopack',
+                         durationInSeconds: Math.round(compilerDuration),
