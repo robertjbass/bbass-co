@@ -1,36 +1,53 @@
+import { useId } from 'react'
+
 type BbassMarkProps = {
   className?: string
 }
 
-// Stylized "B" (bbass.co) built from receding horizontal layers, filled with
-// the brand gradient (#818fc7 -> #00b6ca). The clip-path keeps the slab gaps
-// transparent in any theme.
+// Bass-clef "b:" mark: a lowercase b with the clef's two dots. Kept in sync
+// with app/icon.svg (the favicon).
 export function BbassMark({ className = 'h-8 w-8' }: BbassMarkProps) {
+  const id = useId()
+  const tileId = `${id}-tile`
+  const inkId = `${id}-ink`
+
   return (
     <svg
       viewBox="0 0 64 64"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
+      aria-hidden="true"
     >
       <defs>
-        <linearGradient id="bbass-mark-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#818fc7" />
-          <stop offset="1" stopColor="#00b6ca" />
+        <linearGradient id={tileId} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#132033" />
+          <stop offset="1" stopColor="#080d16" />
         </linearGradient>
-        <clipPath id="bbass-mark-shape">
-          <path
-            fillRule="evenodd"
-            d="M 13 9 H 34 C 43 9 49 14 49 21 C 49 28 45 32 41 32 C 45 32 49 36 49 43 C 49 50 43 55 34 55 H 13 Z M 25 16.5 H 33 Q 37 16.5 37 21 Q 37 25.5 33 25.5 H 25 Z M 25 38 H 34 Q 39 38 39 42.5 Q 39 47 34 47 H 25 Z"
-          />
-        </clipPath>
+        <linearGradient
+          id={inkId}
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1="10"
+          x2="0"
+          y2="52"
+        >
+          <stop offset="0" stopColor="#7ee6f2" />
+          <stop offset="1" stopColor="#14aec8" />
+        </linearGradient>
       </defs>
-      <g clipPath="url(#bbass-mark-shape)" fill="url(#bbass-mark-grad)">
-        <rect x="0" y="8" width="64" height="6.6" />
-        <rect x="0" y="16" width="64" height="6.6" />
-        <rect x="0" y="24" width="64" height="6.6" />
-        <rect x="0" y="32" width="64" height="6.6" />
-        <rect x="0" y="40" width="64" height="6.6" />
-        <rect x="0" y="48" width="64" height="6.6" />
+      <rect width="64" height="64" rx="14" fill={`url(#${tileId})`} />
+      <g
+        fill="none"
+        stroke={`url(#${inkId})`}
+        strokeWidth="7"
+        strokeLinecap="round"
+      >
+        <path d="M18 12 V40" />
+        <circle cx="28" cy="40" r="10" />
+      </g>
+      <g fill="#f2b632">
+        <circle cx="46.5" cy="32" r="3.8" />
+        <circle cx="46.5" cy="46" r="3.8" />
       </g>
     </svg>
   )
