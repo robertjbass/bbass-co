@@ -38,6 +38,7 @@ export function invalidateBlogPages(...posts: (Blog | undefined)[]) {
   )
   if (!visible.length) return
   try {
+    if (visible.some((post) => post.featured)) revalidatePath('/')
     revalidatePath('/blog')
     revalidatePath('/blog/rss.xml')
     revalidatePath('/sitemap.xml')
@@ -92,6 +93,23 @@ export const prepareBlogPost: CollectionBeforeChangeHook<Blog> = ({
         ],
       })
     }
+  }
+  return data
+}
+
+export const selectFeaturedPost: CollectionBeforeChangeHook<Blog> = async ({
+  data,
+  originalDoc,
+  req,
+}) => {
+  if (data.featured === true && !originalDoc?.featured) {
+    await req.payload.update({
+      collection: 'blog',
+      where: { featured: { equals: true } },
+      data: { featured: false },
+      req,
+      overrideAccess: true,
+    })
   }
   return data
 }
