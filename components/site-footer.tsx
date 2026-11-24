@@ -52,7 +52,7 @@ export async function SiteFooter() {
           <p className="text-xs text-muted-foreground/60">
             &copy; {year} {contactInfo.name}
           </p>
-          <p className="text-xs text-muted-foreground/60">Built with 🩵 in ATX</p>
+          <p className="text-xs text-muted-foreground/60">Built in Austin, TX</p>
         </div>
       </div>
     </footer>
