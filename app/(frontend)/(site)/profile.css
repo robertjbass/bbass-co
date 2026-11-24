@@ -155,10 +155,20 @@
   margin-top: 0.5rem;
   color: var(--accent-ink);
 }
+.work-description,
 .work-row > p,
 .about-section p {
   color: var(--secondary-ink);
   line-height: 1.66;
+}
+.work-description p + p {
+  margin-top: 0.75rem;
+}
+.work-aside {
+  max-width: 42em;
+  margin-top: 1.7rem;
+  color: var(--accent-ink);
+  font: italic 1.35rem/1.35 var(--editorial);
 }
 .about-section {
   border-top: 1px solid var(--rule);

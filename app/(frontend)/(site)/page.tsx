@@ -39,7 +39,8 @@ export default function HomePage() {
             </p>
             <h1 id="profile-title">Bob Bass</h1>
             <p className="hero-intro">
-              I build database platforms and the infrastructure that runs them.
+              I build the infrastructure developers use to run databases and
+              ship apps.
             </p>
             <p className="hero-roles">
               Founder &amp; CEO of <a href={socialLinks.startup}>Layerbase</a>.
@@ -68,11 +69,19 @@ export default function HomePage() {
                 </h3>
                 <p className="work-role">Founder &amp; CEO</p>
               </div>
-              <p>
-                I build the developer tools and cloud service behind Layerbase,
-                from the local database runtime to isolated database branches
-                for preview deployments.
-              </p>
+              <div className="work-description">
+                <p>
+                  I’m building Layerbase so developers can bring their
+                  open-source database of choice. It’s a serverless database
+                  platform with engine-agnostic branching. You can fork
+                  Postgres, MySQL, or Redis for a preview through the same API.
+                </p>
+                <p>
+                  Agent sandboxes are live, and we’re piloting Next.js app
+                  hosting. I’m building toward one place to develop and host an
+                  entire application, from the first experiment to production.
+                </p>
+              </div>
             </article>
             <article className="work-row">
               <div>
@@ -82,10 +91,14 @@ export default function HomePage() {
                 <p className="work-role">Head of Engineering</p>
               </div>
               <p>
-                I lead the engineering team and write software for our flagship
-                product.
+                I lead engineering at Efficient.app, where we test software
+                hands-on and help teams decide which tools are worth paying for.
               </p>
             </article>
+            <p className="work-aside">
+              Apparently, competing with G2 at my day job left just enough time
+              to take on Vercel and Supabase.
+            </p>
           </div>
         </section>
         <section
