@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="13" fill="#201d26"/>
-  <g transform="skewY(-10)" fill-rule="evenodd">
-    <path fill="#ffbd94" d="M8 21h7v15h5a12 12 0 0 1 0 24h-2A10 10 0 0 1 8 50zm7 22v7a3 3 0 0 0 3 3h2a5 5 0 0 0 0-10z"/>
-    <path fill="#bdadff" d="M33 16h7v15h5a12 12 0 0 1 0 24h-2a10 10 0 0 1-10-10zm7 22v7a3 3 0 0 0 3 3h2a5 5 0 0 0 0-10z"/>
+  <g transform="translate(3 0) skewX(-6)" fill-rule="evenodd">
+    <path fill="#ffbd94" d="M12 9h25c9 0 15 4 15 11 0 5-3 9-8 12H12zm10 9v7h13c4 0 6-1 6-4s-2-3-6-3z"/>
+    <path fill="#bdadff" d="M12 36h30l7-4c4 2 6 6 6 10 0 8-6 13-17 13H12zm10 7v5h15c4 0 6-1 6-4 0-1-1-2-2-3l-3 2z"/>
   </g>
 </svg>
