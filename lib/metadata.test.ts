@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 
 // Relative .ts import: node --experimental-strip-types doesn't honor path
 // aliases or implicit extensions.
-import { computeShouldNoindex } from './metadata.ts'
+import { computeShouldNoindex, normalizeSiteUrl } from './metadata.ts'
 
 describe('computeShouldNoindex', () => {
   describe('VERCEL_ENV=production', () => {
@@ -157,5 +157,22 @@ describe('computeShouldNoindex', () => {
         false,
       )
     })
+  })
+})
+
+describe('normalizeSiteUrl', () => {
+  it('uses the HTTPS apex for public site and auth origins', () => {
+    for (const origin of [
+      'http://bbass.co',
+      'https://www.bbass.co',
+      'bbass.co',
+    ]) {
+      assert.equal(normalizeSiteUrl(origin), 'https://bbass.co')
+    }
+  })
+  it('preserves local and preview origins', () => {
+    for (const origin of ['http://localhost:3832', 'https://dev.bbass.co']) {
+      assert.equal(normalizeSiteUrl(origin), origin)
+    }
   })
 })

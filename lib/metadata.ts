@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-function normalizeSiteUrl(value: string | undefined): string | undefined {
+export function normalizeSiteUrl(value: string | undefined): string | undefined {
   if (!value?.trim()) return undefined
 
   const withProtocol = /^https?:\/\//.test(value)
@@ -8,7 +8,12 @@ function normalizeSiteUrl(value: string | undefined): string | undefined {
     : `https://${value.trim()}`
 
   try {
-    return new URL(withProtocol).origin
+    const url = new URL(withProtocol)
+    // bbass.co serves public pages over TLS even when the auth proxy uses HTTP.
+    if (url.hostname === 'bbass.co' || url.hostname === 'www.bbass.co') {
+      return 'https://bbass.co'
+    }
+    return url.origin
   } catch {
     return undefined
   }
